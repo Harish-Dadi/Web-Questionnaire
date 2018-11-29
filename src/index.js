@@ -1,26 +1,30 @@
 // Importing React and ReactDOM
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
 // Importing serviceWorker
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorker from "./serviceWorker";
 
 // Importing React-Redux
-import { Provider } from 'react-redux'
+import { Provider } from "react-redux";
 
 // Importing Components
-import App from './client/containers/App';
+import App from "./client/containers/App";
 
 // Importing Styling files
-import './assets/style/index.css';
+import "./assets/style/index.css";
 
 // Importing store
-import store from "./client/store/store"
+import store from "./client/store/store";
+
+store.subscribe(() => {
+  console.log("Store updated ", store.getState());
+});
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('root')
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
 );
 serviceWorker.unregister();

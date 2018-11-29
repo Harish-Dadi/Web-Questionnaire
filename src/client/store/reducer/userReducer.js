@@ -31,28 +31,19 @@ const initialState = {
     }
   ]
 };
-const userReducer = (state = initialState, action) => {
+export default function(state = initialState, action) {
   switch (action.type) {
-    case "SHOW_PREVIOUS":
-      return {
-        ...state,
-        currId: action.payload
-      };
     case "SHOW_NEXT":
       return {
         ...state,
-        currId: action.payload
-      };
-    case "MARK_ANSWER":
-      return {
-        ...state
-        // userAnswer: state.userAnswer.map(answer =>
-        //   state.currId === answer ? answer : 0
-        // )
+        currId: action.payload[0],
+        questions: state.questions.map(question =>
+          question.id === state.currId
+            ? { ...question, userAnswer: action.payload[1] }
+            : question
+        )
       };
     default:
       return state;
   }
-};
-
-export default userReducer;
+}

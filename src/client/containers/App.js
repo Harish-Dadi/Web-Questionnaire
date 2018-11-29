@@ -1,58 +1,70 @@
 import React, { Component } from "react";
-// import { Main } from "../components/Main";
-// import { Display } from "../components/Display";
 import { connect } from "react-redux";
-import * as userActions from "../store/actions/userActions";
-import { bindActionCreators } from "redux";
-
-import {
-  showNext,
-  showPrevious,
-  markAnswer
-} from "../store/actions/userActions";
+import "../../assets/style/stylish.css";
+import { markAnswer } from "../store/actions/userActions";
 
 class App extends Component {
-  componentWillMount() {
-    showNext(0);
-  }
   render() {
-    console.log(this.props);
     const id = this.props.currId;
-    const ques = this.props.questions[id - 1];
-    return (
-      <div className="App">
-        <p>{ques.question}</p>
-        <form>
-          <input
-            type="radio"
-            name="group"
-            value={ques.options[0]}
-            onChange={() => markAnswer(1)}
-          />
-          {ques.options[0]}
-          <br />
-          <input
-            type="radio"
-            name="group"
-            value={ques.options[1]}
-            onChange={() => markAnswer(2)}
-          />
-          {ques.options[1]}
-          <br />
-          <input
-            type="radio"
-            name="group"
-            value={ques.options[2]}
-            onChange={() => markAnswer(3)}
-          />
-          {ques.options[2]} <br />
-        </form>
-        <button onClick={() => showPrevious(this.props.currId)}>
-          Show Previous
-        </button>
-        <button onClick={() => showNext(this.props.currId)}> Show Next</button>
-      </div>
-    );
+    if (id < 5) {
+      const ques = this.props.questions[id - 1];
+      const answer = ques.userAnswer;
+      return (
+        <div className="container">
+          <h1 style={{ fontSize: 150 }}>Quiz</h1>
+          <div className="App">
+            <p>
+              {ques.id + " "}
+              {ques.question}
+            </p>
+            <form>
+              <input
+                type="radio"
+                name="group"
+                value={ques.options[0]}
+                checked={answer === 1}
+                onChange={() => this.props.markAnswerQuestion(1, id)}
+              />
+              {ques.options[0]}
+              <br />
+              <br />
+              <input
+                type="radio"
+                name="group"
+                value={ques.options[1]}
+                checked={answer === 2}
+                onChange={() => this.props.markAnswerQuestion(2, id)}
+              />
+              {ques.options[1]}
+              <br />
+              <br />
+              <input
+                type="radio"
+                name="group"
+                value={ques.options[2]}
+                checked={answer === 3}
+                onChange={() => this.props.markAnswerQuestion(3, id)}
+              />
+              {ques.options[2]} <br />
+            </form>
+          </div>
+        </div>
+      );
+    } else {
+      let score = 0;
+      for (let i = 0; i < 4; i++) {
+        let q = this.props.questions[i];
+        if (q.userAnswer !== 0) {
+          score += q.options[q.userAnswer - 1] === q.answer;
+        }
+      }
+      return (
+        <h1 className="Result">
+          Your score is <p />
+          {score}
+        </h1>
+      );
+    }
   }
 }
 
@@ -65,7 +77,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(userActions, dispatch)
+    markAnswerQuestion: (answer, id) => {
+      dispatch(markAnswer(answer, id));
+    }
   };
 };
 
