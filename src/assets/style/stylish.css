@@ -5,7 +5,7 @@
   top: 40%;
   left: 50%;
   width: 50%;
-  height: 70%;
+  height: 40%;
   bottom: 2%;
   -ms-transform: translate(-50%, -50%);
   border: 3px;
@@ -19,6 +19,7 @@
   position: absolute;
   font-size: 150%;
   top: 40%;
+  padding-top: 3%;
   left: 50%;
   width: 50%;
   height: 10%;
@@ -26,4 +27,14 @@
   border: 3px;
   transform: translate(-50%, -50%);
   background-color: grey;
+}
+
+.submitButton {
+  width: 10%;
+  height: 10%;
+}
+.nextButton {
+  width: 10%;
+  font-size: 70%;
+  height: 10%;
 }

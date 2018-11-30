@@ -1,5 +1,7 @@
 const initialState = {
   currId: 1,
+  displayNext: false,
+  resetSelected: false,
   questions: [
     {
       id: 1,
@@ -37,9 +39,18 @@ export default function(state = initialState, action) {
       return {
         ...state,
         currId: action.payload[0],
+        displayNext: action.payload[1],
+        resetSelected: action.payload[2]
+      };
+    case "MARK_ANSWER":
+      console.log(state.questions);
+      return {
+        ...state,
+        displayNext: action.payload[1],
+        resetSelected: action.payload[2],
         questions: state.questions.map(question =>
           question.id === state.currId
-            ? { ...question, userAnswer: action.payload[1] }
+            ? { ...question, userAnswer: action.payload[0] }
             : question
         )
       };
