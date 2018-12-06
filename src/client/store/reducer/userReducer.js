@@ -29,7 +29,8 @@ const initialState = {
       answer: "7",
       userAnswer: 0
     }
-  ]
+  ],
+  score: 0
 };
 
 export default function(state = initialState, action) {
@@ -44,9 +45,20 @@ export default function(state = initialState, action) {
         ...state,
         questions: state.questions.map(question =>
           question.id === state.currId
-            ? { ...question, userAnswer: action.payload[0] }
+            ? { ...question, userAnswer: action.payload }
             : question
         )
+      };
+    case "COMPUTE_SCORE":
+      let scr = 0;
+      for (let i = 0; i < state.questions.length; i++) {
+        let q = state.questions[i];
+        if (q.userAnswer === q.answer) scr += 1;
+      }
+      return {
+        ...state,
+        score: scr,
+        currId: action.payload + 1
       };
     default:
       return state;

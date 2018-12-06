@@ -11,3 +11,10 @@ export function markAnswer(answer) {
     payload: answer
   };
 }
+
+export function computeScore(id) {
+  return {
+    type: "COMPUTE_SCORE",
+    payload: id
+  };
+}

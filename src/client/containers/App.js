@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "../../assets/style/stylish.css";
-import { markAnswer, showNext } from "../store/actions/userActions";
+import {
+  markAnswer,
+  showNext,
+  computeScore
+} from "../store/actions/userActions";
 
 class App extends Component {
   render() {
@@ -10,13 +14,15 @@ class App extends Component {
       const ques = this.props.questions[id - 1];
       const answer = ques.userAnswer;
       let someButton = null;
-      if (id == this.props.questions.length) {
+      if (id === this.props.questions.length) {
         someButton = (
-          <button onClick={this.props.goNextQuestion(id)}>Submit</button>
+          <button onClick={() => this.props.computeScoreUser(id)}>
+            Submit
+          </button>
         );
       } else {
         someButton = (
-          <button onClick={this.props.goNextQuestion(id)}>Next</button>
+          <button onClick={() => this.props.goNextQuestion(id)}>Next</button>
         );
       }
       // console.log(this.props.displayNext);
@@ -37,8 +43,8 @@ class App extends Component {
                     className="radio1"
                     style={{ backgroundColor: "grey" }}
                     value={option}
-                    checked={() => ques.userAnswer}
-                    onChange={() => someButton}
+                    checked={answer === option}
+                    onChange={() => this.props.markAnswerQuestion(option)}
                   />
                   <label
                     id="labelRadioOne"
@@ -62,9 +68,7 @@ class App extends Component {
         </div>
       );
     } else {
-      console.log(this.props.score);
-      let score = this.props.score;
-      return <h1 className="Result"> {score}</h1>;
+      return <h1>{this.props.score}</h1>;
     }
   }
 }
@@ -72,7 +76,8 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     currId: state.user.currId,
-    questions: state.user.questions
+    questions: state.user.questions,
+    score: state.user.score
   };
 };
 
@@ -83,6 +88,9 @@ const mapDispatchToProps = dispatch => {
     },
     goNextQuestion: id => {
       dispatch(showNext(id));
+    },
+    computeScoreUser: id => {
+      dispatch(computeScore(id));
     }
   };
 };
