@@ -1,8 +1,5 @@
 const initialState = {
   currId: 1,
-  displayNext: false,
-  resetSelected: false,
-  score: 0,
   questions: [
     {
       id: 1,
@@ -34,19 +31,17 @@ const initialState = {
     }
   ]
 };
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case "SHOW_NEXT":
       return {
-        currId: action.payload[0],
-        displayNext: action.payload[1],
-        resetSelected: action.payload[2]
+        ...state,
+        currId: Math.min(action.payload + 1, state.questions.length)
       };
     case "MARK_ANSWER":
-      console.log(state.questions);
       return {
         ...state,
-        displayNext: action.payload[1],
         questions: state.questions.map(question =>
           question.id === state.currId
             ? { ...question, userAnswer: action.payload[0] }

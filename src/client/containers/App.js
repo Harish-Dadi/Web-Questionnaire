@@ -4,46 +4,23 @@ import "../../assets/style/stylish.css";
 import { markAnswer, showNext } from "../store/actions/userActions";
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      score: [0, 0, 0, 0]
-    };
-    this.Changed = this.Changed.bind(this);
-  }
-
-  Changed(option, id) {
-    let ques = this.props.questions[this.props.currId - 1];
-    if (ques.answer === option) {
-      this.state.score[this.props.currId - 1] = 1;
-    } else {
-      this.state.score[this.props.currId - 1] = 0;
-    }
-    this.props.markAnswerQuestion(option, id);
-  }
   render() {
     const id = this.props.currId;
-
-    if (id < 5) {
+    if (id < this.props.questions.length + 1) {
       const ques = this.props.questions[id - 1];
       const answer = ques.userAnswer;
       let someButton = null;
-      console.log(this.props.displayNext);
-      if (this.props.displayNext && id === 4) {
+      if (id == this.props.questions.length) {
         someButton = (
-          <button onClick={() => this.props.goNextQuestion(id)}>Submit</button>
+          <button onClick={this.props.goNextQuestion(id)}>Submit</button>
         );
-      } else if (this.props.displayNext) {
+      } else {
         someButton = (
-          <button
-            className="nextButton"
-            id="nextButton"
-            onClick={() => this.props.goNextQuestion(id, answer)}
-          >
-            Next
-          </button>
+          <button onClick={this.props.goNextQuestion(id)}>Next</button>
         );
       }
+      // console.log(this.props.displayNext);
+
       return (
         <div className="App">
           <p>
@@ -60,8 +37,8 @@ class App extends Component {
                     className="radio1"
                     style={{ backgroundColor: "grey" }}
                     value={option}
-                    checked={answer === option}
-                    onChange={this.Changed(option, id)}
+                    checked={() => ques.userAnswer}
+                    onChange={() => someButton}
                   />
                   <label
                     id="labelRadioOne"
@@ -95,9 +72,7 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     currId: state.user.currId,
-    questions: state.user.questions,
-    displayNext: state.user.displayNext,
-    score: state.user.score
+    questions: state.user.questions
   };
 };
 

@@ -1,13 +1,13 @@
-export function showNext(id, answer) {
+export function showNext(id) {
   return {
     type: "SHOW_NEXT",
-    payload: [Math.min(5, id + 1), false, true, answer]
+    payload: id
   };
 }
 
-export function markAnswer(answer, id) {
+export function markAnswer(answer) {
   return {
     type: "MARK_ANSWER",
-    payload: [answer, true, false]
+    payload: answer
   };
 }
