@@ -2,6 +2,7 @@ const initialState = {
   currId: 1,
   displayNext: false,
   resetSelected: false,
+  score: 0,
   questions: [
     {
       id: 1,
@@ -37,7 +38,6 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case "SHOW_NEXT":
       return {
-        ...state,
         currId: action.payload[0],
         displayNext: action.payload[1],
         resetSelected: action.payload[2]
@@ -47,7 +47,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         displayNext: action.payload[1],
-        resetSelected: action.payload[2],
         questions: state.questions.map(question =>
           question.id === state.currId
             ? { ...question, userAnswer: action.payload[0] }
