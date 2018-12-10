@@ -51,7 +51,7 @@ export default function(state = initialState, action) {
       };
     case "COMPUTE_SCORE":
       let scr = 0;
-      for (let i = 0; i < state.questions.length; i++) {
+      for (let i = 0; i < action.payload; i++) {
         let q = state.questions[i];
         if (q.userAnswer === q.answer) scr += 1;
       }
