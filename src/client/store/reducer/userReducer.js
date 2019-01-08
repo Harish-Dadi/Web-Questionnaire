@@ -1,5 +1,4 @@
 const initialState = {
-
   currId: 1,
   questions: [
     {
