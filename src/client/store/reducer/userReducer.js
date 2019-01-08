@@ -1,4 +1,5 @@
 const initialState = {
+
   currId: 1,
   questions: [
     {
@@ -33,7 +34,7 @@ const initialState = {
   score: 0
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case "SHOW_NEXT":
       return {
